@@ -18,29 +18,31 @@
     function startGame(){
       var rn = randomNumber(wordlist.length);
       var word = wordlist[rn];
-      insertWords(word);
-      moveWords();
-      downWords();
       if(infinite === 1){
+        insertWords(word);
+        moveWords();
+        downWords();
         setTimeout(startGame,speed);
       }
+      document.getElementById("startButton").disabled = true;
+      
     }
     function stopGame(){
       infinite = 0;
       alert("점수 : "+successCnt+"점 입니다.");
-      location.reload();
+      //location.reload();
     }
     function downWords(){ //단어 아래로 이동하게 하는 함수
       len = document.getElementsByTagName("span").length;
       var next = 0;
       for(var i=1;i<len;i++){
-          var curr = document.getElementsByTagName("span")[i].style.paddingTop;
-          if(curr === "") {
-            next = 0; 
-          }else { 
-            next = parseInt(curr)+30;
-          }
-          if(next >=381){ //height over했을때 삭제
+        var curr = document.getElementsByTagName("span")[i].style.paddingTop;
+        if(curr === "") {
+          next = 0; 
+        }else { 
+          next = parseInt(curr)+30;
+        }
+          if(next >= 381){ //height over했을때 삭제
             failCnt++;
             document.getElementsByTagName("span")[i].innerHTML = "";
             document.getElementById("screen").removeChild(document.getElementsByTagName("span")[i]);
@@ -51,8 +53,8 @@
             document.getElementsByTagName("span")[i].style.paddingTop = next.toString()+"px";
           }
         }
-        if(failCnt == 21){
-          stopGame();
+        if(failCnt == 20){
+          setTimeout(stopGame,speed);
         }
       }
     function moveWords(){ //단어 좌우로 이동하게 하는 함수
@@ -166,8 +168,8 @@
 <body>
   <div id="game">
     <span id="wordGame" style="padding-left:170px">Word Game
-      <input type="button" value="START!" onclick="startGame()">
-      <input type="button" value="STOP!" onclick=" stopGame()">
+      <input type="button" id="startButton" value="START!" onclick="startGame()">
+      <input type="button" value="RESET!" onclick="location.reload()">
     </span>
   </div>
   <div id="screen">
