@@ -3,11 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Word Game</title>
+  <title>Word Random Game</title>
   <script>
     var failCnt = 0;
     var successCnt = 0;
     var speed = 2000;
+    var infinite = 1;
+
     var wordlist = ["banana","coffee","friends","sun","star","apple",
     "meat","strawberry","weather","mike","juice","desktop",
     "piano","guitar","donus","org","game","tokyo","america","christmas",
@@ -15,35 +17,37 @@
 
     function startGame(){
       var rn = randomNumber(wordlist.length);
-      var words = wordlist[rn];
-      insertWords(words);
+      var word = wordlist[rn];
+      insertWords(word);
       moveWords();
-      setTimeout(startGame,speed);
+      downWords();
+      if(infinite === 1){
+        setTimeout(startGame,speed);
+      }
     }
-    // function endGame(){
-      
-    // }
     function stopGame(){
-      location.reload();
+      infinite = 0;
       alert("점수 : "+successCnt+"점 입니다.");
+      location.reload();
     }
-    function downWords(){ //단어 떨어지게하는 함수
+    function downWords(){ //단어 아래로 이동하게 하는 함수
       len = document.getElementsByTagName("span").length;
+      var next = 0;
       for(var i=1;i<len;i++){
-          //현재의 paddingtop값에 20추가.
           var curr = document.getElementsByTagName("span")[i].style.paddingTop;
           if(curr === "") {
-            curr = "0";
+            next = 0; 
+          }else { 
+            next = parseInt(curr)+30;
           }
-          var next = parseInt(curr)+30;
           if(next >=381){ //height over했을때 삭제
             failCnt++;
             document.getElementsByTagName("span")[i].innerHTML = "";
             document.getElementById("screen").removeChild(document.getElementsByTagName("span")[i]);
-            //console.log("실패 : "+failCnt.toString()+"/20"+" "+len);
             document.getElementById("fail").innerHTML = "실패 : "+failCnt.toString()+" / 20";
           } 
-          if(document.getElementsByTagName("span")[i]){ //삭제되지 않은 노드에 한해서 조정
+
+          if(document.getElementsByTagName("span")[i]){ //삭제되지 않은 노드에 한해서 next값 만큼 조정
             document.getElementsByTagName("span")[i].style.paddingTop = next.toString()+"px";
           }
         }
@@ -69,7 +73,6 @@
       }
     }
     function createNode(words){ //단어를 담을 span 태그 노드 생성
-      downWords();
       var node = document.createElement("span");
       node.innerHTML = words;
       return node;
@@ -78,11 +81,10 @@
       var rn = Math.floor(Math.random()*p);
       return rn;
     }
-    function compare(){ //screen 상에 뿌려지는 단어들과 비교하고 삭제
+    function compareWord(){ //screen 상에 뿌려지는 단어들과 비교하고 삭제
       var input = document.getElementById("wordInput").value;
       var len = document.getElementsByTagName("span").length;
       for(var i=len-1; i>=1;i--){
-        //console.log(document.getElementsByTagName("span")[i].innerHTML);
         if(document.getElementsByTagName("span")[i].innerHTML == input){
           successCnt++;
           document.getElementsByTagName("span")[i].innerHTML = "";
@@ -94,31 +96,31 @@
       funfun();
       document.getElementById("wordInput").value = "";
     }
-    function funfun(){
+    function funfun(){ //재미 요소
       var rn = randomNumber(100);
       var len = document.getElementsByTagName("span").length;
       console.log(rn);
-      if(rn > 30 && rn <= 50){ // 잘 안보임
+      if(rn > 45 && rn <= 60){ // 잘 안보이는 컬러
         for(var i=1; i<len; i++){
           if(document.getElementsByTagName("span")[i]){
             document.getElementsByTagName("span")[i].style.color = "yellow";
           }
         }
       }else{ 
-        for(var i=1; i<len; i++){
+        for(var i=1; i<len; i++){ //색상 원래대로
           if(document.getElementsByTagName("span")[i]){
             document.getElementsByTagName("span")[i].style.color = "black";
           }
         }
-        if(rn > 20 && rn <= 30){ //속도 2배
+        if(rn > 23 && rn <= 39){ //속도 2배
           speed = 1000;
           document.getElementById("level").innerHTML = "Level : Normal"
         } 
-        else if(rn > 10 && rn <= 20){ //속도 4배
+        else if(rn >= 10 && rn <= 23){ //속도 4배
           speed = 500;
           document.getElementById("level").innerHTML = "Level : Hard"
         }
-        else if(rn > 70 && rn <= 74){
+        else if(rn == 71 || rn == 72){ //커피 쿠폰
           document.getElementById("cc").src = "coffee.png";
         }
       }
@@ -172,7 +174,7 @@
   </div>
   <div id="grid">
     <div id="command"> 
-      <Input type="text" id="wordInput" onchange="compare()">
+      <Input type="text" id="wordInput" onchange="compareWord()">
       <div id="success">성공 : 0</div>
       <div id="fail"> 실패 : 0 / 20 </div>
       <div id="level"> Level : Easy </div>
