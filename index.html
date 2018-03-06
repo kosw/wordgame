@@ -9,9 +9,9 @@
     var successCnt = 0;
     var speed = 2000;
     var wordlist = ["banana","coffee","friends","sun","star","apple",
-                    "meat","strawberry","weather","mike","juice","desktop",
-                    "piano","guitar","donus","org","game","tokyo","america","christmas",
-                    "spring","winter","summer","fall","france"];
+    "meat","strawberry","weather","mike","juice","desktop",
+    "piano","guitar","donus","org","game","tokyo","america","christmas",
+    "spring","winter","summer","fall","france"];
 
     function startGame(){
       var rn = randomNumber(wordlist.length);
@@ -20,16 +20,16 @@
       moveWords();
       setTimeout(startGame,speed);
     }
-    function endGame(){
+    // function endGame(){
       
-    }
+    // }
     function stopGame(){
       location.reload();
       alert("점수 : "+successCnt+"점 입니다.");
     }
     function downWords(){ //단어 떨어지게하는 함수
       len = document.getElementsByTagName("span").length;
-        for(var i=1;i<len;i++){
+      for(var i=1;i<len;i++){
           //현재의 paddingtop값에 20추가.
           var curr = document.getElementsByTagName("span")[i].style.paddingTop;
           if(curr === "") {
@@ -40,15 +40,17 @@
             failCnt++;
             document.getElementsByTagName("span")[i].innerHTML = "";
             document.getElementById("screen").removeChild(document.getElementsByTagName("span")[i]);
-            console.log("실패 : "+failCnt.toString()+"/20"+" "+len);
+            //console.log("실패 : "+failCnt.toString()+"/20"+" "+len);
             document.getElementById("fail").innerHTML = "실패 : "+failCnt.toString()+" / 20";
-            //endgame
           } 
           if(document.getElementsByTagName("span")[i]){ //삭제되지 않은 노드에 한해서 조정
             document.getElementsByTagName("span")[i].style.paddingTop = next.toString()+"px";
           }
         }
-    }
+        if(failCnt == 6){
+          stopGame();
+        }
+      }
     function moveWords(){ //단어 좌우로 이동하게 하는 함수
       var len = document.getElementsByTagName("span").length;
       for(var i=1;i<len;i++){
@@ -121,63 +123,63 @@
         }
       }
     }
-</script>
-<style>
-#game {
-  border:1px solid gray;
-  width:500px;
-  height:25px;
-}
-#screen {
-  border:1px solid gray;
-  border-top:20px solid pink;
-  position:relative;
-  width:500px;
-  height:400px; 
-  
-}
-#screen span{
-  position:absolute;
-}
+  </script>
+  <style>
+  #game {
+    border:1px solid gray;
+    width:500px;
+    height:25px;
+  }
+  #screen {
+    border:1px solid gray;
+    border-top:20px solid pink;
+    position:relative;
+    width:500px;
+    height:400px; 
+    
+  }
+  #screen span{
+    position:absolute;
+  }
 /*#command {
    border:1px solid gray;
    border-top:20px solid pink;
    width:500px;
    height:150px;
-}*/
-#grid {
-  border:1px solid gray;
-  border-top:20px solid pink;
-  width:500px;
-  height:150px;
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-}
-#command {
-  border-right:1px solid gray;
-  width:250px;
-}
+   }*/
+   #grid {
+    border:1px solid gray;
+    border-top:20px solid pink;
+    width:500px;
+    height:150px;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  #command {
+    border-right:1px solid gray;
+    width:250px;
+  }
 </style>
 </head>
 <body>
-<div id="game">
-<span id="wordGame" style="padding-left:170px">Word Game
-<input type="button" value="START!" onclick="startGame()">
-<input type="button" value="STOP!" onclick=" stopGame()">
-</span>
-</div>
-<div id="screen">
-</div>
-<div id="grid">
-<div id="command"> 
-<Input type="text" id="wordInput" onchange="compare()">
-<div id="success">성공 : 0</div>
-<div id="fail"> 실패 : 0 / 20 </div>
-<div id="level"> Level : Easy </div>
-</div>
-<div id="coupon">
-<img id="cc"></img>
-</div>
-</div>
+  <div id="game">
+    <span id="wordGame" style="padding-left:170px">Word Game
+      <input type="button" value="START!" onclick="startGame()">
+      <input type="button" value="STOP!" onclick=" stopGame()">
+    </span>
+  </div>
+  <div id="screen">
+  </div>
+  <div id="grid">
+    <div id="command"> 
+      <Input type="text" id="wordInput" onchange="compare()">
+      <div id="success">성공 : 0</div>
+      <div id="fail"> 실패 : 0 / 20 </div>
+      <div id="level"> Level : Easy </div>
+    </div>
+    <div id="coupon">
+      <img id="cc"></img>
+    </div>
+  </div>
 </body>
 </html>
