@@ -86,6 +86,7 @@
       var len = document.getElementsByTagName("span").length;
       for(var i=len-1; i>=1;i--){
         if(document.getElementsByTagName("span")[i].innerHTML == input){
+          funfun();
           successCnt++;
           document.getElementsByTagName("span")[i].innerHTML = "";
           document.getElementById("screen").removeChild(document.getElementsByTagName("span")[i]);
@@ -93,14 +94,13 @@
           break;
         }
       }
-      funfun();
       document.getElementById("wordInput").value = "";
     }
     function funfun(){ //재미 요소
       var rn = randomNumber(100);
       var len = document.getElementsByTagName("span").length;
       console.log(rn);
-      if(rn > 45 && rn <= 60){ // 잘 안보이는 컬러
+      if(rn > 45 && rn <= 58){ // 잘 안보이는 컬러
         for(var i=1; i<len; i++){
           if(document.getElementsByTagName("span")[i]){
             document.getElementsByTagName("span")[i].style.color = "yellow";
@@ -112,11 +112,11 @@
             document.getElementsByTagName("span")[i].style.color = "black";
           }
         }
-        if(rn > 23 && rn <= 39){ //속도 2배
+        if(rn > 23 && rn <= 40){ //속도 2배
           speed = 1000;
           document.getElementById("level").innerHTML = "Level : Normal"
         } 
-        else if(rn >= 10 && rn <= 23){ //속도 4배
+        else if(rn >= 10 && rn <= 20){ //속도 4배
           speed = 500;
           document.getElementById("level").innerHTML = "Level : Hard"
         }
