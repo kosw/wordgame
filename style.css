@@ -1,0 +1,34 @@
+  #game {
+    border:1px solid gray;
+    width:500px;
+    height:25px;
+  }
+  #screen {
+    border:1px solid gray;
+    border-top:20px solid pink;
+    position:relative;
+    width:500px;
+    height:400px; 
+    
+  }
+  #screen span{
+    position:absolute;
+  }
+/*#command {
+   border:1px solid gray;
+   border-top:20px solid pink;
+   width:500px;
+   height:150px;
+   }*/
+   #grid {
+    border:1px solid gray;
+    border-top:20px solid pink;
+    width:500px;
+    height:150px;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  #command {
+    border-right:1px solid gray;
+    width:250px;
+  }
